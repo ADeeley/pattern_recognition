@@ -92,7 +92,7 @@ public class Point implements Comparable<Point> {
     /**
      * Compares the points by y-coordinate, breaking ties by x-coordinate.
      * @param  that the other point
-     * @return the value - if this point is equal to the argument
+     * @return the value 0 if this point is equal to the argument
      *        point (x0 = x1 and y0 = y1):
      *        A negative integer if this point is less than the argument
      *        point; and a positive integer if this point is greater than
@@ -107,17 +107,17 @@ public class Point implements Comparable<Point> {
         else
             return 1;
     }
-    /*
+    /**
      * Compares two points by the slope they make with this point
      * The slope is defined as in the SlopeTo() method
      *
      * @return the Comparator that defines this ordering on points
+     */
 
     public Comparator<Point> slopeOrder()
     {
-        
+        return (o1, o2) -> Double.compare(slopeTo(o1), slopeTo(o2));
     }
-     */
     /**
      * Returns a string representation of this point for debugging.
      * Your program should not rely on the format of the string
@@ -195,6 +195,30 @@ public class Point implements Comparable<Point> {
     q = new Point(0, 3);
     assert p.compareTo(q) > 0;
     assert q.compareTo(p) < 0;
+
+    // Comparator unit tests--------------------
+    Point s = new Point(1, 1);
+    p = new Point(2, 3); // greater slope
+    q = new Point(2, 2); // lessser slope
+    Comparator<Point> cp = p.slopeOrder();
+    assert cp.compare(p, q) == -1;
+    assert cp.compare(q, p) ==  1;
+    
+    // Equal slopes
+    s = new Point(1, 1);
+    p = new Point(2, 2); // greater slope
+    q = new Point(2, 2); // lessser slope
+    cp = p.slopeOrder();
+    assert cp.compare(p, q) == 0;
+    assert cp.compare(q, p) == 0;
+    
+    // vertical slopes 
+    s = new Point(1, 1);
+    p = new Point(1, 2); // greater slope
+    q = new Point(1, 3); // lessser slope
+    cp = p.slopeOrder();
+    System.out.println(cp.compare(p, q));
+    System.out.println(cp.compare(q, p));
     }
 
 }
