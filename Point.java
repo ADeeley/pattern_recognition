@@ -114,9 +114,18 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
 
+    private int compareTo(double a, double b)
+    {
+        if (a > b)
+            return 1;
+        else if (a < b)
+            return -1;
+        else
+            return 0;
+    }
     public Comparator<Point> slopeOrder()
     {
-        return (o1, o2) -> Double.compare(slopeTo(o1), slopeTo(o2));
+        return (o1, o2) -> compareTo(slopeTo(o1), slopeTo(o2));
     }
     /**
      * Returns a string representation of this point for debugging.
@@ -208,17 +217,25 @@ public class Point implements Comparable<Point> {
     s = new Point(1, 1);
     p = new Point(2, 2); // greater slope
     q = new Point(2, 2); // lessser slope
-    cp = p.slopeOrder();
+    cp = s.slopeOrder();
     assert cp.compare(p, q) == 0;
     assert cp.compare(q, p) == 0;
     
     // vertical slopes 
     s = new Point(1, 1);
-    p = new Point(1, 2); // greater slope
-    q = new Point(1, 3); // lessser slope
-    cp = p.slopeOrder();
-    System.out.println(cp.compare(p, q));
-    System.out.println(cp.compare(q, p));
+    p = new Point(1, 2); 
+    q = new Point(1, 3);
+    cp = s.slopeOrder();
+    assert cp.compare(p, q) == 0;
+    assert cp.compare(q, p) == 0;
+    
+    // Horizontal slopes 
+    s = new Point(1, 1);
+    p = new Point(2, 1); 
+    q = new Point(3, 1);
+    cp = s.slopeOrder();
+    assert cp.compare(p, q) == 0;
+    assert cp.compare(q, p) == 0;
     }
 
 }
