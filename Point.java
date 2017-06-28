@@ -236,6 +236,7 @@ public class Point implements Comparable<Point> {
     cp = s.slopeOrder();
     assert cp.compare(p, q) == 0;
     assert cp.compare(q, p) == 0;
+
     }
 
 }
